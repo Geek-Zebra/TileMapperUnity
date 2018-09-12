@@ -19,14 +19,17 @@ public class TileMapper : EditorWindow
     private Vector3 lastCameraPosition;
     private Vector3 lastCameraRoation;
     private string targetFolder = "";
+    GameObject[] tilesModels;
+    string[] guids1;
+    Texture2D[] previews;
+
     // Add menu named "My Window" to the Window menu
     [MenuItem("Window/My Window")]
     static void Init()
     {
-
-        // Get existing open window or if none, make a new one:
         TileMapper window = (TileMapper)EditorWindow.GetWindow(typeof(TileMapper));
         window.Show();
+
     }
 
     void OnFocus()
@@ -61,13 +64,13 @@ public class TileMapper : EditorWindow
 
         if (isFocused)
         {
-            SceneView.lastActiveSceneView.orthographic = true;
+            SceneView.lastActiveSceneView.orthographic = false;
             sceneView.LookAt(Vector3.zero, Quaternion.Euler(90, 0, 0));
             SceneView.lastActiveSceneView.Repaint();
             sceneView.size = mapSize * tileSize;
         }
 
-        if(!isFocused && !isCameraReplaced)
+        if (!isFocused && !isCameraReplaced)
         {
             isCameraReplaced = true;
             SceneView.lastActiveSceneView.orthographic = wasCameraOrthographic;
@@ -75,28 +78,57 @@ public class TileMapper : EditorWindow
         }
     }
 
-    void OnGUI()
+    void setTiles()
     {
-        GUILayout.BeginHorizontal();
-        string[] guids1 = AssetDatabase.FindAssets("l:terrain");
-        GameObject[] tilesModels = new GameObject[guids1.Length];
-
-        scrollPosSelection = EditorGUILayout.BeginScrollView(scrollPosSelection, GUILayout.MaxWidth(margin));
-
-        if (GUILayout.Button("Delete", GUILayout.MaxWidth(margin - scrollBarSize), GUILayout.MaxHeight(100)))
-        {
-            selectedButton = -1;
-        }
+        guids1 = AssetDatabase.FindAssets("l:terrain");
+        tilesModels = new GameObject[guids1.Length];
+        previews = new Texture2D[guids1.Length];
         for (var i = 0; i < guids1.Length; i++)
         {
             GameObject gameObject = (GameObject)AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(guids1[i]), typeof(GameObject));
             tilesModels[i] = gameObject;
-            var preview = AssetPreview.GetAssetPreview(gameObject);
+        }
+    }
+
+    void OnGUI()
+    {
+        if (guids1 == null)
+            setTiles();
+
+        //setTiles();
+        GUILayout.BeginHorizontal();
+
+        scrollPosSelection = EditorGUILayout.BeginScrollView(scrollPosSelection, GUILayout.MaxWidth(margin));
+        var deleteButtonSize = 30;
+        var imageButtonSize = 75;
+        var labelSise = 15;
+        var marginSize = 10;
+        var numberOfVisibleElements = 12;
+        var blockSize = labelSise + imageButtonSize + marginSize;
+        if(selectedButton == -1)
+            GUI.color = Color.red;
+
+        if (GUILayout.Button("Delete", GUILayout.MaxWidth(margin - scrollBarSize), GUILayout.Height(deleteButtonSize)))
+        {
+            selectedButton = -1;
+        }
+        GUI.color = Color.white;
+        for (var i = 0; i < guids1.Length; i++)
+        {
             if (i == selectedButton)
                 GUI.color = Color.green;
 
-            GUILayout.Label(gameObject.name, GUILayout.MaxWidth(margin - scrollBarSize), GUILayout.MaxHeight(100));
-            if (GUILayout.Button(preview, GUILayout.MaxWidth(75), GUILayout.MaxHeight(75)))
+            if (scrollPosSelection.y < (i * blockSize) + deleteButtonSize && scrollPosSelection.y > (i * blockSize) - blockSize * numberOfVisibleElements)
+            {
+                if (previews[i] == null && !AssetPreview.IsLoadingAssetPreviews())
+                {
+                    previews[i] = AssetPreview.GetAssetPreview(tilesModels[i]);
+                }
+            } else {
+                previews[i] = null;
+            }
+            GUILayout.Label(tilesModels[i].name, GUILayout.MaxWidth(margin - scrollBarSize), GUILayout.Height(labelSise));
+            if (GUILayout.Button(previews[i], GUILayout.Height(imageButtonSize)))
             {
                 selectedButton = i;
             }

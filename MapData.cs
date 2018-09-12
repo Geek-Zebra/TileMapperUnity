@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+[ExecuteInEditMode]
 public class MapData : MonoBehaviour
 {
     public GameObject[] Tiles;
@@ -29,8 +30,9 @@ public class MapData : MonoBehaviour
         return gameObject;
     }
 
-    public void AddExtraSpace(int id, GameObject gameObject, Vector3 position) {
-        if(Tiles[id] != null)
+    public void AddExtraSpace(int id, GameObject gameObject, Vector3 position)
+    {
+        if (Tiles[id] != null)
             DestroyImmediate(Tiles[id]);
 
         Tiles[id] = gameObject;
@@ -40,5 +42,21 @@ public class MapData : MonoBehaviour
     {
         if (Tiles[id] != null)
             DestroyImmediate(Tiles[id]);
+    }
+
+#if UNITY_EDITOR
+    void OnDrawGizmos()
+    {
+        DrawDebug();
+    }
+#endif
+
+    void DrawDebug()
+    {
+        for (var i = 0; i < Tiles.Length; i++)
+        {
+            if (Tiles[i] != null)
+                DebugSceneUtils.drawString(i.ToString(), Tiles[i].transform.position, Color.white);
+        }
     }
 }
