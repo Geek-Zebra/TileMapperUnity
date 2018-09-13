@@ -18,7 +18,6 @@ public class TileMapper : EditorWindow
     private bool isCameraMemorized;
     private Vector3 lastCameraPosition;
     private Vector3 lastCameraRoation;
-    private string targetFolder = "";
     GameObject[] tilesModels;
     string[] guids1;
     Texture2D[] previews;
