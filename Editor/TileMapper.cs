@@ -4,7 +4,7 @@ using UnityEngine;
 public class TileMapper : EditorWindow
 {
     int tileSize = 5;
-    int mapSize = 20;
+    int mapSize = 50;
     int scrollBarSize = 30;
     int buttonSize = 35;
     int margin = 150;
@@ -63,17 +63,17 @@ public class TileMapper : EditorWindow
 
         if (isFocused)
         {
-            SceneView.lastActiveSceneView.orthographic = false;
-            sceneView.LookAt(Vector3.zero, Quaternion.Euler(90, 0, 0));
-            SceneView.lastActiveSceneView.Repaint();
-            sceneView.size = mapSize * tileSize;
+            //SceneView.lastActiveSceneView.orthographic = false;
+            //sceneView.LookAt(Vector3.zero, Quaternion.Euler(90, 0, 0));
+            //SceneView.lastActiveSceneView.Repaint();
+            //sceneView.size = mapSize * tileSize;
         }
 
         if (!isFocused && !isCameraReplaced)
         {
             isCameraReplaced = true;
-            SceneView.lastActiveSceneView.orthographic = wasCameraOrthographic;
-            sceneView.rotation = Quaternion.Euler(lastCameraRoation);
+            //SceneView.lastActiveSceneView.orthographic = wasCameraOrthographic;
+            //sceneView.rotation = Quaternion.Euler(lastCameraRoation);
         }
     }
 
