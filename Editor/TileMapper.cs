@@ -14,10 +14,7 @@ public class TileMapper : EditorWindow
     Vector2 scrollPosTileEditor;
     private bool isFocused;
     private bool isCameraReplaced;
-    private bool wasCameraOrthographic;
     private bool isCameraMemorized;
-    private Vector3 lastCameraPosition;
-    private Vector3 lastCameraRoation;
     GameObject[] tilesModels;
     string[] guids1;
     Texture2D[] previews;
@@ -57,8 +54,6 @@ public class TileMapper : EditorWindow
         if (isFocused && !isCameraMemorized)
         {
             isCameraMemorized = true;
-            wasCameraOrthographic = SceneView.lastActiveSceneView.orthographic;
-            lastCameraRoation = sceneView.rotation.eulerAngles;
         }
 
         if (isFocused)
