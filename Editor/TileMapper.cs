@@ -7,7 +7,7 @@ public class TileMapper : EditorWindow
     int mapSize = 50;
     int scrollBarSize = 30;
     int buttonSize = 35;
-    int margin = 150;
+    int margin = 300;
     int selectedButton = 0;
     MapData tileMapper;
     Vector2 scrollPosSelection;
@@ -18,14 +18,22 @@ public class TileMapper : EditorWindow
     GameObject[] tilesModels;
     string[] guids1;
     Texture2D[] previews;
+    static TileMapper window;
 
     // Add menu named "My Window" to the Window menu
-    [MenuItem("Window/My Window")]
+    [MenuItem("Tile mapper/Window")]
     static void Init()
     {
-        TileMapper window = (TileMapper)EditorWindow.GetWindow(typeof(TileMapper));
+        window = (TileMapper)EditorWindow.GetWindow(typeof(TileMapper));
         window.Show();
 
+    }
+
+    [MenuItem("Tile mapper/Refresh window")]
+    static void RefreshWindow()
+    {
+
+        window.guids1 = null;
     }
 
     void OnFocus()
