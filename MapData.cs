@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using GZ.Utils;
 
 [ExecuteInEditMode]
 public class MapData : MonoBehaviour
