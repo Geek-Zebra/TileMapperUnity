@@ -21,7 +21,7 @@ public class TileMapper : EditorWindow
     static TileMapper window;
 
     // Add menu named "My Window" to the Window menu
-    [MenuItem("Tile mapper/Window")]
+    [MenuItem("Tools/GeekZebra/Tile mapper/Window")]
     static void Init()
     {
         window = (TileMapper)EditorWindow.GetWindow(typeof(TileMapper));
@@ -29,7 +29,7 @@ public class TileMapper : EditorWindow
 
     }
 
-    [MenuItem("Tile mapper/Refresh window")]
+    [MenuItem("Tools/GeekZebra/Refresh window")]
     static void RefreshWindow()
     {
 
